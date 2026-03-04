@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Sprout — Our Story</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root { --cream:#FFF8EE; --warm-white:#FFFCF7; --green:#3D7A5A; --green-light:#5A9E76; --green-pale:#E8F4EE; --orange:#F26B3A; --orange-pale:#FEF0EA; --yellow:#F5C842; --purple:#7B5EA7; --purple-pale:#F0EBF8; --text-dark:#1C2B20; --text-mid:#4A5E50; --text-light:#8A9E90; --border:rgba(61,122,90,0.12); }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--text-dark); overflow-x:hidden; }
+.announcement { background:var(--green); color:white; text-align:center; padding:10px; font-size:13.5px; font-weight:500; }
+.announcement span { font-weight:700; }
+nav { background:var(--warm-white); border-bottom:1.5px solid var(--border); padding:0 48px; display:flex; align-items:center; justify-content:space-between; height:68px; position:sticky; top:0; z-index:100; }
+.nav-logo { font-family:'Fraunces',serif; font-size:26px; font-weight:700; color:var(--green); display:flex; align-items:center; gap:8px; text-decoration:none; }
+.nav-logo .sprout-icon { width:32px; height:32px; background:var(--green); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; }
+.nav-links { display:flex; gap:36px; list-style:none; }
+.nav-links a { text-decoration:none; color:var(--text-mid); font-size:15px; font-weight:500; }
+.nav-links a:hover,.nav-links a.active { color:var(--green); font-weight:600; }
+.nav-actions { display:flex; align-items:center; gap:20px; }
+.nav-btn { background:var(--green); color:white; border:none; border-radius:100px; padding:10px 22px; font-size:14px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; text-decoration:none; display:inline-block; }
+.cart-icon { position:relative; cursor:pointer; font-size:22px; }
+.cart-badge { position:absolute; top:-6px; right:-8px; background:var(--orange); color:white; border-radius:50%; width:18px; height:18px; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; background:none; border:none; }
+.hamburger span { display:block; width:24px; height:2px; background:var(--text-dark); border-radius:2px; transition:all 0.3s; }
+.hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity:0; }
+.hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+.mobile-menu { display:none; position:fixed; top:68px; left:0; right:0; background:var(--warm-white); border-bottom:1.5px solid var(--border); padding:24px; z-index:99; flex-direction:column; }
+.mobile-menu.open { display:flex; }
+.mobile-menu a { text-decoration:none; color:var(--text-mid); font-size:16px; font-weight:500; padding:14px 0; border-bottom:1px solid var(--border); }
+.mobile-menu .m-btn { background:var(--green); color:white; border:none; border-radius:100px; padding:14px; font-size:15px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; text-align:center; margin-top:16px; text-decoration:none; display:block; }
+.story-hero { background:var(--warm-white); padding:100px 48px 80px; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+.story-hero .section-label { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:14px; }
+.story-hero h1 { font-family:'Fraunces',serif; font-size:58px; font-weight:700; line-height:1.05; margin-bottom:24px; }
+.story-hero h1 em { font-style:italic; color:var(--green); }
+.story-hero p { font-size:17px; color:var(--text-mid); line-height:1.8; font-weight:300; margin-bottom:20px; }
+.founder-visual { position:relative; display:flex; justify-content:center; }
+.founder-card { background:white; border-radius:32px; padding:40px; box-shadow:0 20px 80px rgba(61,122,90,0.15); text-align:center; width:100%; max-width:380px; position:relative; }
+.founder-avatar { width:120px; height:120px; border-radius:50%; background:linear-gradient(135deg,var(--green-pale),#C8E8D4); display:flex; align-items:center; justify-content:center; font-size:56px; margin:0 auto 20px; border:4px solid white; box-shadow:0 8px 30px rgba(61,122,90,0.2); }
+.founder-name { font-family:'Fraunces',serif; font-size:26px; font-weight:700; margin-bottom:4px; }
+.founder-title { font-size:14px; color:var(--green); font-weight:600; margin-bottom:16px; }
+.founder-quote { font-size:15px; color:var(--text-mid); line-height:1.7; font-style:italic; font-weight:300; }
+.founder-badge { position:absolute; top:-16px; right:-16px; background:var(--yellow); border-radius:20px; padding:10px 16px; font-size:13px; font-weight:700; color:#7A5500; box-shadow:0 4px 16px rgba(245,200,66,0.4); }
+.floating-pill { position:absolute; background:white; border-radius:100px; padding:10px 16px; font-size:13px; font-weight:600; box-shadow:0 6px 20px rgba(0,0,0,0.10); display:flex; align-items:center; gap:8px; }
+.pill-1 { bottom:-20px; left:-20px; }
+.pill-2 { top:80px; right:-30px; }
+.origin-section { padding:100px 48px; }
+.origin-section .section-label { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:14px; }
+.origin-section h2 { font-family:'Fraunces',serif; font-size:46px; font-weight:700; line-height:1.1; margin-bottom:48px; max-width:600px; }
+.story-blocks { display:flex; flex-direction:column; gap:0; }
+.story-block { display:grid; grid-template-columns:80px 1fr; gap:32px; padding-bottom:48px; position:relative; }
+.story-block:not(:last-child)::before { content:''; position:absolute; left:39px; top:60px; bottom:0; width:2px; background:var(--border); }
+.story-num { width:80px; height:80px; background:var(--green-pale); border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Fraunces',serif; font-size:32px; font-weight:700; color:var(--green); flex-shrink:0; }
+.story-content h3 { font-family:'Fraunces',serif; font-size:26px; font-weight:700; margin-bottom:12px; margin-top:24px; }
+.story-content p { font-size:16px; color:var(--text-mid); line-height:1.8; font-weight:300; }
+.story-content p + p { margin-top:12px; }
+.mission-section { background:var(--green); padding:100px 48px; }
+.mission-section .section-label { color:rgba(255,255,255,0.6); font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:14px; }
+.mission-section h2 { font-family:'Fraunces',serif; font-size:46px; font-weight:700; color:white; line-height:1.1; margin-bottom:20px; max-width:700px; }
+.mission-section .lead { font-size:18px; color:rgba(255,255,255,0.75); font-weight:300; line-height:1.7; max-width:600px; margin-bottom:64px; }
+.values-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+.value-card { background:rgba(255,255,255,0.1); border-radius:24px; padding:32px; }
+.value-icon { font-size:36px; margin-bottom:16px; }
+.value-title { font-family:'Fraunces',serif; font-size:22px; font-weight:700; color:white; margin-bottom:10px; }
+.value-text { font-size:14.5px; color:rgba(255,255,255,0.72); line-height:1.7; font-weight:300; }
+.science-section { padding:100px 48px; background:var(--warm-white); }
+.science-section .section-label { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:14px; }
+.science-section h2 { font-family:'Fraunces',serif; font-size:46px; font-weight:700; margin-bottom:16px; }
+.science-section .lead { font-size:17px; color:var(--text-mid); font-weight:300; line-height:1.7; max-width:560px; margin-bottom:56px; }
+.science-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+.science-card { background:white; border-radius:20px; padding:28px; border:1.5px solid var(--border); text-align:center; }
+.science-num { font-family:'Fraunces',serif; font-size:42px; font-weight:700; color:var(--green); margin-bottom:8px; }
+.science-label { font-size:14px; color:var(--text-mid); font-weight:500; line-height:1.4; }
+.team-section { padding:100px 48px; }
+.team-section .section-label { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:14px; }
+.team-section h2 { font-family:'Fraunces',serif; font-size:46px; font-weight:700; margin-bottom:16px; }
+.team-section .lead { font-size:17px; color:var(--text-mid); font-weight:300; margin-bottom:48px; }
+.team-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+.team-card { background:white; border-radius:20px; padding:28px; border:1.5px solid var(--border); text-align:center; }
+.team-avatar { width:80px; height:80px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 16px; }
+.ta-green { background:var(--green-pale); } .ta-orange { background:var(--orange-pale); } .ta-purple { background:var(--purple-pale); } .ta-yellow { background:var(--yellow-pale, #FEF9E7); }
+.team-name { font-family:'Fraunces',serif; font-size:18px; font-weight:700; margin-bottom:4px; }
+.team-role { font-size:13px; color:var(--green); font-weight:600; margin-bottom:8px; }
+.team-bio { font-size:13px; color:var(--text-light); line-height:1.5; }
+.cta-section { background:var(--orange-pale); margin:0 48px 80px; border-radius:40px; padding:80px 64px; text-align:center; }
+.cta-section h2 { font-family:'Fraunces',serif; font-size:46px; font-weight:700; margin-bottom:16px; }
+.cta-section h2 em { color:var(--orange); font-style:italic; }
+.cta-section p { font-size:17px; color:var(--text-mid); font-weight:300; max-width:480px; margin:0 auto 36px; line-height:1.7; }
+.cta-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+.btn-primary { background:var(--orange); color:white; border:none; border-radius:100px; padding:16px 34px; font-size:16px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; text-decoration:none; display:inline-block; box-shadow:0 4px 20px rgba(242,107,58,0.35); transition:all 0.2s; }
+.btn-primary:hover { transform:translateY(-2px); }
+.btn-secondary { background:none; border:2px solid var(--green); color:var(--green); border-radius:100px; padding:14px 32px; font-size:15px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; text-decoration:none; display:inline-block; transition:all 0.2s; }
+.btn-secondary:hover { background:var(--green-pale); }
+footer { background:var(--text-dark); color:rgba(255,255,255,0.7); padding:60px 48px 36px; }
+.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; margin-bottom:48px; }
+.footer-logo { font-family:'Fraunces',serif; font-size:24px; font-weight:700; color:white; margin-bottom:16px; }
+.footer-desc { font-size:14px; line-height:1.7; margin-bottom:24px; font-weight:300; }
+.footer-social { display:flex; gap:12px; }
+.social-btn { width:36px; height:36px; background:rgba(255,255,255,0.08); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; cursor:pointer; }
+.footer-col h4 { color:white; font-size:14px; font-weight:600; margin-bottom:20px; }
+.footer-col ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+.footer-col ul li a { text-decoration:none; color:rgba(255,255,255,0.6); font-size:14px; }
+.footer-col ul li a:hover { color:white; }
+.footer-bottom { border-top:1px solid rgba(255,255,255,0.08); padding-top:28px; display:flex; justify-content:space-between; align-items:center; font-size:13px; color:rgba(255,255,255,0.4); }
+@media(max-width:768px) {
+  nav { padding:0 24px; } .nav-links,.nav-btn { display:none; } .hamburger { display:flex; }
+  .story-hero { grid-template-columns:1fr; padding:60px 24px; gap:48px; }
+  .story-hero h1 { font-size:40px; }
+  .origin-section { padding:64px 24px; } .origin-section h2 { font-size:34px; }
+  .mission-section { padding:64px 24px; } .mission-section h2 { font-size:36px; }
+  .values-grid { grid-template-columns:1fr; gap:20px; }
+  .science-section { padding:64px 24px; }
+  .science-grid { grid-template-columns:repeat(2,1fr); }
+  .team-section { padding:64px 24px; } .team-section h2 { font-size:34px; }
+  .team-grid { grid-template-columns:repeat(2,1fr); }
+  .cta-section { margin:0 24px 60px; padding:56px 32px; }
+  .cta-section h2 { font-size:36px; }
+  .footer-grid { grid-template-columns:1fr 1fr; gap:32px; }
+  .footer-bottom { flex-direction:column; gap:8px; text-align:center; }
+}
+@media(max-width:480px) {
+  nav { padding:0 16px; height:60px; } .mobile-menu { top:60px; }
+  .story-hero { padding:40px 16px; } .story-hero h1 { font-size:32px; }
+  .story-block { grid-template-columns:60px 1fr; gap:20px; }
+  .story-num { width:60px; height:60px; font-size:24px; }
+  .story-block:not(:last-child)::before { left:29px; }
+  .science-grid { grid-template-columns:1fr 1fr; }
+  .team-grid { grid-template-columns:1fr 1fr; }
+  .cta-section { margin:0 16px 48px; padding:40px 24px; border-radius:28px; }
+  .cta-section h2 { font-size:28px; }
+  .footer-grid { grid-template-columns:1fr; } footer { padding:40px 16px 24px; }
+  .floating-pill { display:none; }
+}
+</style>
+</head>
+<body>
+<div class="announcement">🌿 <span>Free shipping</span> on orders over $40 · Subscribe & save <span>15%</span></div>
+<nav>
+  <a href="index.html" class="nav-logo"><div class="sprout-icon">🌱</div>Sprout</a>
+  <ul class="nav-links">
+    <li><a href="shop.html">Shop All</a></li>
+    <li><a href="shop.html">Best Sellers</a></li>
+    <li><a href="bundle.html">Build a Bundle</a></li>
+    <li><a href="why-sprout.html" class="active">Why Sprout</a></li>
+    <li><a href="reviews.html">Reviews</a></li>
+  </ul>
+  <div class="nav-actions">
+    <div class="cart-icon">🛍️<div class="cart-badge">2</div></div>
+    <a href="bundle.html" class="nav-btn">Take the Quiz →</a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="shop.html">Shop All</a><a href="shop.html">Best Sellers</a><a href="bundle.html">Build a Bundle</a><a href="why-sprout.html">Why Sprout</a><a href="reviews.html">Reviews</a>
+  <a href="bundle.html" class="m-btn">Take the Quiz →</a>
+</div>
+
+<div class="story-hero">
+  <div>
+    <div class="section-label">Our Story</div>
+    <h1>Born from a mom's <em>frustration.</em> Built for every family.</h1>
+    <p>In 2019, pediatric nutritionist and mom of three Maya Chen stood in a pharmacy aisle, reading the ingredient list of yet another popular kids' vitamin. Artificial dyes. High-fructose corn syrup. Synthetic fillers. And her daughter still refused to take it.</p>
+    <p>She thought: there has to be a better way. Two years later, Sprout was born.</p>
+  </div>
+  <div class="founder-visual">
+    <div class="founder-card">
+      <div class="founder-badge">🌱 Founder & CEO</div>
+      <div class="founder-avatar">👩‍🔬</div>
+      <div class="founder-name">Maya Chen</div>
+      <div class="founder-title">MSc Pediatric Nutrition · Mom of 3</div>
+      <div class="founder-quote">"I didn't want to build a vitamin company. I wanted to build the vitamin company I wished existed when my kids were little."</div>
+    </div>
+    <div class="floating-pill pill-1">🔬 12 years in pediatric nutrition</div>
+    <div class="floating-pill pill-2">👨‍👩‍👧 Mom of Maya, Leo & Zoe</div>
+  </div>
+</div>
+
+<div class="origin-section">
+  <div class="section-label">The Origin Story</div>
+  <h2>From pharmacy aisle to pediatrician-approved formula</h2>
+  <div class="story-blocks">
+    <div class="story-block">
+      <div class="story-num">1</div>
+      <div class="story-content">
+        <h3>The problem no one was solving</h3>
+        <p>After 12 years as a pediatric nutritionist, Maya had seen it all — iron-deficient toddlers, picky eaters with hidden B12 gaps, kids who refused every supplement their parents tried. The market was full of brightly colored gummies loaded with sugar and artificial everything.</p>
+        <p>Parents were paying premium prices for products that were barely better than candy. And the kids who needed real nutrition the most were the ones most likely to refuse them.</p>
+      </div>
+    </div>
+    <div class="story-block">
+      <div class="story-num">2</div>
+      <div class="story-content">
+        <h3>Two years in the lab</h3>
+        <p>Maya spent two years working with a team of pediatric nutritionists, food scientists, and child development specialists to create something genuinely different. The breakthrough came from an unlikely place: food flavor research. Kids weren't refusing vitamins because of the vitamins — they were refusing the artificial aftertaste.</p>
+        <p>By using whole-food flavor compounds and natural sweeteners instead of synthetic alternatives, Maya's team created the first chewable vitamin that kids actually asked for by name.</p>
+      </div>
+    </div>
+    <div class="story-block">
+      <div class="story-num">3</div>
+      <div class="story-content">
+        <h3>The beta test that changed everything</h3>
+        <p>In 2020, Maya ran a 90-day beta test with 200 families across 8 cities. The results were staggering: 94% of kids took their vitamin without being asked after the first week. Within 60 days, parents reported measurable improvements in energy, sleep quality, and school focus in 78% of children.</p>
+        <p>One parent wrote: "My daughter called it her 'magic berry.' I've never seen her excited about anything health-related." That note became the founding mission of Sprout.</p>
+      </div>
+    </div>
+    <div class="story-block">
+      <div class="story-num">4</div>
+      <div class="story-content">
+        <h3>50,000 families and counting</h3>
+        <p>Sprout launched officially in January 2021. Within 6 months, it had become the fastest-growing children's supplement brand in North America. Today, over 50,000 families subscribe monthly, and Sprout has expanded to a full range of pediatric formulas — each one carrying the same founding promise: clean, effective nutrition that kids actually love.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mission-section">
+  <div class="section-label">Our Mission & Values</div>
+  <h2>We exist to make childhood nutrition effortless — and joyful.</h2>
+  <p class="lead">Every decision we make — from sourcing ingredients to designing the bottle — starts with one question: is this genuinely better for kids?</p>
+  <div class="values-grid">
+    <div class="value-card">
+      <div class="value-icon">🔬</div>
+      <div class="value-title">Science first, always</div>
+      <div class="value-text">Every formula is built on peer-reviewed research and validated by our board of pediatric nutritionists. We don't follow trends — we follow the evidence.</div>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">🌿</div>
+      <div class="value-title">Radical ingredient transparency</div>
+      <div class="value-text">We publish our full ingredient list, sourcing information, and third-party lab results openly. No hidden anything. If it's in the bottle, it's on the label — with a reason.</div>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">🌍</div>
+      <div class="value-title">Sustainability at the core</div>
+      <div class="value-text">Our packaging is 100% recyclable. Our facilities run on renewable energy. And for every subscription, we donate one month of vitamins to a child in need through our Grow Together program.</div>
+    </div>
+  </div>
+</div>
+
+<div class="science-section">
+  <div class="section-label">By the Numbers</div>
+  <h2>The science behind Sprout</h2>
+  <p class="lead">Numbers don't lie. These are the results that have made Sprout the most trusted kids' vitamin brand in America.</p>
+  <div class="science-grid">
+    <div class="science-card"><div class="science-num">94%</div><div class="science-label">of kids take their vitamin without being asked after week 1</div></div>
+    <div class="science-card"><div class="science-num">78%</div><div class="science-label">of parents report measurable improvements in energy & focus within 60 days</div></div>
+    <div class="science-card"><div class="science-num">15+</div><div class="science-label">essential nutrients in every chewable, in their most bioavailable forms</div></div>
+    <div class="science-card"><div class="science-num">0g</div><div class="science-label">added sugar, artificial colors, or synthetic fillers — ever</div></div>
+  </div>
+</div>
+
+<div class="team-section">
+  <div class="section-label">The Team</div>
+  <h2>Built by experts. Tested by parents.</h2>
+  <p class="lead">Our team combines decades of pediatric nutrition science with real-world parenting experience.</p>
+  <div class="team-grid">
+    <div class="team-card">
+      <div class="team-avatar ta-green">👩‍🔬</div>
+      <div class="team-name">Maya Chen</div>
+      <div class="team-role">Founder & CEO</div>
+      <div class="team-bio">MSc Pediatric Nutrition, 12 years clinical practice, mom of 3</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar ta-orange">👨‍⚕️</div>
+      <div class="team-name">Dr. Priya Kapoor</div>
+      <div class="team-role">Chief Science Officer</div>
+      <div class="team-bio">MD, PhD Biochemistry, former NIH researcher specializing in pediatric micronutrients</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar ta-purple">👩‍🍳</div>
+      <div class="team-name">Rosa Martinez</div>
+      <div class="team-role">Head of Formulation</div>
+      <div class="team-bio">Food scientist with 15 years developing natural flavor systems for children's products</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar ta-yellow">👨‍👨‍👧</div>
+      <div class="team-name">Tom & Jake Walsh</div>
+      <div class="team-role">Co-founders & Operations</div>
+      <div class="team-bio">Former supply chain executives turned full-time dads who joined Maya after their own kids became Sprout fans</div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-section">
+  <h2>Ready to join 50,000+ <em>thriving</em> families?</h2>
+  <p>Start with our free quiz and we'll build the perfect vitamin plan for your child in under 2 minutes.</p>
+  <div class="cta-btns">
+    <a href="bundle.html" class="btn-primary">Take the Free Quiz →</a>
+    <a href="shop.html" class="btn-secondary">Browse All Products</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-logo">🌱 Sprout</div><div class="footer-desc">Clean vitamins for curious, growing kids. Pediatrician-formulated, parent-approved, and kid-tested since 2021.</div><div class="footer-social"><div class="social-btn">📘</div><div class="social-btn">📸</div><div class="social-btn">🎵</div><div class="social-btn">🐦</div></div></div>
+    <div class="footer-col"><h4>Products</h4><ul><li><a href="shop.html">Shop All</a></li><li><a href="bundle.html">Build a Bundle</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="why-sprout.html">Our Story</a></li><li><a href="why-sprout.html">Science</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="reviews.html">Reviews</a></li><li><a href="#">Contact Us</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2025 Sprout Health Inc.</span><span>Privacy · Terms · Accessibility</span></div>
+</footer>
+<script>
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); document.getElementById('hamburger').classList.toggle('open'); }
+</script>
+</body>
+</html>

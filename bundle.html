@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build a Bundle — Sprout</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root { --cream:#FFF8EE; --warm-white:#FFFCF7; --green:#3D7A5A; --green-light:#5A9E76; --green-pale:#E8F4EE; --orange:#F26B3A; --orange-pale:#FEF0EA; --yellow:#F5C842; --purple:#7B5EA7; --purple-pale:#F0EBF8; --text-dark:#1C2B20; --text-mid:#4A5E50; --text-light:#8A9E90; --border:rgba(61,122,90,0.12); }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:var(--cream); color:var(--text-dark); overflow-x:hidden; }
+.announcement { background:var(--green); color:white; text-align:center; padding:10px; font-size:13.5px; font-weight:500; }
+.announcement span { font-weight:700; }
+nav { background:var(--warm-white); border-bottom:1.5px solid var(--border); padding:0 48px; display:flex; align-items:center; justify-content:space-between; height:68px; position:sticky; top:0; z-index:100; }
+.nav-logo { font-family:'Fraunces',serif; font-size:26px; font-weight:700; color:var(--green); display:flex; align-items:center; gap:8px; text-decoration:none; }
+.nav-logo .sprout-icon { width:32px; height:32px; background:var(--green); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; }
+.nav-links { display:flex; gap:36px; list-style:none; }
+.nav-links a { text-decoration:none; color:var(--text-mid); font-size:15px; font-weight:500; }
+.nav-links a:hover,.nav-links a.active { color:var(--green); font-weight:600; }
+.nav-actions { display:flex; align-items:center; gap:20px; }
+.nav-btn { background:var(--green); color:white; border:none; border-radius:100px; padding:10px 22px; font-size:14px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; text-decoration:none; display:inline-block; }
+.cart-icon { position:relative; cursor:pointer; font-size:22px; }
+.cart-badge { position:absolute; top:-6px; right:-8px; background:var(--orange); color:white; border-radius:50%; width:18px; height:18px; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; padding:4px; background:none; border:none; }
+.hamburger span { display:block; width:24px; height:2px; background:var(--text-dark); border-radius:2px; transition:all 0.3s; }
+.hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity:0; }
+.hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+.mobile-menu { display:none; position:fixed; top:68px; left:0; right:0; background:var(--warm-white); border-bottom:1.5px solid var(--border); padding:24px; z-index:99; flex-direction:column; }
+.mobile-menu.open { display:flex; }
+.mobile-menu a { text-decoration:none; color:var(--text-mid); font-size:16px; font-weight:500; padding:14px 0; border-bottom:1px solid var(--border); }
+.mobile-menu .m-btn { background:var(--green); color:white; border:none; border-radius:100px; padding:14px; font-size:15px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; text-align:center; margin-top:16px; text-decoration:none; display:block; }
+.bundle-hero { background:var(--green); padding:80px 48px; text-align:center; position:relative; overflow:hidden; }
+.bundle-hero::before { content:''; position:absolute; top:-100px; left:-100px; width:400px; height:400px; background:rgba(255,255,255,0.04); border-radius:50%; }
+.bundle-hero::after { content:''; position:absolute; bottom:-80px; right:-80px; width:300px; height:300px; background:rgba(255,255,255,0.04); border-radius:50%; }
+.bundle-hero .section-label { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.6); margin-bottom:14px; }
+.bundle-hero h1 { font-family:'Fraunces',serif; font-size:56px; font-weight:700; color:white; line-height:1.05; margin-bottom:16px; }
+.bundle-hero h1 em { font-style:italic; color:var(--yellow); }
+.bundle-hero p { font-size:18px; color:rgba(255,255,255,0.75); font-weight:300; max-width:520px; margin:0 auto 32px; line-height:1.6; }
+.savings-pills { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+.savings-pill { background:rgba(255,255,255,0.15); color:white; border-radius:100px; padding:8px 20px; font-size:14px; font-weight:600; }
+.builder-layout { display:grid; grid-template-columns:1fr 380px; gap:40px; padding:48px; align-items:start; }
+.builder-main h2 { font-family:'Fraunces',serif; font-size:28px; font-weight:700; margin-bottom:8px; }
+.builder-main .subtitle { font-size:15px; color:var(--text-mid); margin-bottom:32px; font-weight:300; }
+.step-label { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+.step-num { width:22px; height:22px; background:var(--green); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; }
+.supplement-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:40px; }
+.supplement-card { background:white; border-radius:20px; padding:20px; border:2px solid var(--border); cursor:pointer; transition:all 0.2s; display:flex; gap:16px; align-items:flex-start; position:relative; }
+.supplement-card:hover { border-color:var(--green); box-shadow:0 4px 20px rgba(61,122,90,0.1); }
+.supplement-card.selected { border-color:var(--green); background:var(--green-pale); }
+.supplement-card.selected::after { content:'✓'; position:absolute; top:12px; right:14px; background:var(--green); color:white; width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; }
+.supp-bottle { width:52px; height:88px; border-radius:10px 10px 8px 8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; }
+.supp-bottle::before { content:''; position:absolute; top:-8px; width:32px; height:14px; border-radius:6px 6px 4px 4px; }
+.sb-green { background:linear-gradient(150deg,#4A8C6A,#2A6040); } .sb-green::before { background:linear-gradient(150deg,#F5C842,#D4A800); }
+.sb-orange { background:linear-gradient(150deg,#F07850,#D05030); } .sb-orange::before { background:linear-gradient(150deg,#A0D870,#80B850); }
+.sb-purple { background:linear-gradient(150deg,#9B7BC4,#6B4B94); } .sb-purple::before { background:linear-gradient(150deg,#F5C842,#D4A800); }
+.sb-blue { background:linear-gradient(150deg,#5BA4D4,#3A74A4); } .sb-blue::before { background:linear-gradient(150deg,#F07850,#D05030); }
+.sb-teal { background:linear-gradient(150deg,#3AADA0,#1A7D70); } .sb-teal::before { background:linear-gradient(150deg,#F5C842,#D4A800); }
+.sb-red { background:linear-gradient(150deg,#E05A6A,#B03040); } .sb-red::before { background:linear-gradient(150deg,#5BA4D4,#3A74A4); }
+.sb-yellow { background:linear-gradient(150deg,#E8A020,#C07800); } .sb-yellow::before { background:linear-gradient(150deg,#9B7BC4,#6B4B94); }
+.sb-pink { background:linear-gradient(150deg,#E870A0,#C04070); } .sb-pink::before { background:linear-gradient(150deg,#F5C842,#D4A800); }
+.supp-emoji { font-size:20px; }
+.supp-info { flex:1; }
+.supp-name { font-family:'Fraunces',serif; font-size:16px; font-weight:600; margin-bottom:3px; }
+.supp-age { font-size:11px; color:var(--green); font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
+.supp-desc { font-size:12px; color:var(--text-light); line-height:1.4; margin-bottom:8px; }
+.supp-price { font-family:'Fraunces',serif; font-size:17px; font-weight:700; }
+.supp-price-sub { font-size:11px; color:var(--text-light); font-family:'DM Sans',sans-serif; font-weight:400; }
+.frequency-options { display:flex; gap:12px; margin-bottom:40px; }
+.freq-opt { flex:1; background:white; border:2px solid var(--border); border-radius:16px; padding:16px; text-align:center; cursor:pointer; transition:all 0.2s; }
+.freq-opt:hover,.freq-opt.selected { border-color:var(--green); background:var(--green-pale); }
+.freq-name { font-weight:700; font-size:14px; margin-bottom:4px; }
+.freq-save { font-size:12px; color:var(--green); font-weight:600; }
+.freq-price { font-size:12px; color:var(--text-light); margin-top:4px; }
+.order-summary { background:white; border-radius:28px; padding:32px; border:1.5px solid var(--border); position:sticky; top:80px; }
+.os-title { font-family:'Fraunces',serif; font-size:22px; font-weight:700; margin-bottom:24px; padding-bottom:20px; border-bottom:1.5px solid var(--border); }
+.os-items { display:flex; flex-direction:column; gap:12px; margin-bottom:20px; min-height:80px; }
+.os-item { display:flex; align-items:center; gap:12px; }
+.os-dot { width:10px; height:10px; border-radius:50%; background:var(--green); flex-shrink:0; }
+.os-item-name { font-size:14px; font-weight:500; flex:1; }
+.os-item-price { font-size:14px; font-weight:700; }
+.os-empty { font-size:14px; color:var(--text-light); font-style:italic; }
+.os-divider { border:none; border-top:1.5px solid var(--border); margin:16px 0; }
+.os-row { display:flex; justify-content:space-between; font-size:14px; margin-bottom:8px; }
+.os-row.total { font-family:'Fraunces',serif; font-size:22px; font-weight:700; margin-top:4px; }
+.os-row.savings { color:var(--green); font-weight:700; }
+.checkout-btn { width:100%; background:var(--orange); color:white; border:none; border-radius:100px; padding:18px; font-size:17px; font-weight:700; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; box-shadow:0 6px 24px rgba(242,107,58,0.3); margin-top:20px; }
+.checkout-btn:hover { transform:translateY(-2px); }
+.checkout-btn:disabled { background:#ccc; cursor:not-allowed; box-shadow:none; transform:none; }
+.os-badges { display:flex; gap:8px; flex-wrap:wrap; margin-top:16px; }
+.os-badge { font-size:11px; color:var(--text-mid); display:flex; align-items:center; gap:4px; }
+.os-badge::before { content:'✓'; color:var(--green); font-weight:700; }
+.prebuilt-section { padding:0 48px 80px; }
+.prebuilt-section h2 { font-family:'Fraunces',serif; font-size:34px; font-weight:700; margin-bottom:8px; }
+.prebuilt-section p { font-size:15px; color:var(--text-mid); margin-bottom:32px; font-weight:300; }
+.prebuilt-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.prebuilt-card { background:white; border-radius:20px; padding:24px; border:1.5px solid var(--border); cursor:pointer; transition:all 0.2s; }
+.prebuilt-card:hover { border-color:var(--green); box-shadow:0 8px 30px rgba(61,122,90,0.1); transform:translateY(-2px); }
+.prebuilt-emoji-row { display:flex; gap:8px; margin-bottom:16px; font-size:28px; }
+.prebuilt-name { font-family:'Fraunces',serif; font-size:18px; font-weight:700; margin-bottom:4px; }
+.prebuilt-age { font-size:12px; color:var(--green); font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px; }
+.prebuilt-desc { font-size:13px; color:var(--text-light); line-height:1.5; margin-bottom:16px; }
+.prebuilt-footer { display:flex; justify-content:space-between; align-items:center; }
+.prebuilt-price { font-family:'Fraunces',serif; font-size:20px; font-weight:700; }
+.prebuilt-save { background:var(--green-pale); color:var(--green); border-radius:100px; padding:4px 10px; font-size:11px; font-weight:700; }
+footer { background:var(--text-dark); color:rgba(255,255,255,0.7); padding:60px 48px 36px; }
+.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; margin-bottom:48px; }
+.footer-logo { font-family:'Fraunces',serif; font-size:24px; font-weight:700; color:white; margin-bottom:16px; }
+.footer-desc { font-size:14px; line-height:1.7; margin-bottom:24px; font-weight:300; }
+.footer-social { display:flex; gap:12px; }
+.social-btn { width:36px; height:36px; background:rgba(255,255,255,0.08); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; cursor:pointer; }
+.footer-col h4 { color:white; font-size:14px; font-weight:600; margin-bottom:20px; }
+.footer-col ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+.footer-col ul li a { text-decoration:none; color:rgba(255,255,255,0.6); font-size:14px; }
+.footer-col ul li a:hover { color:white; }
+.footer-bottom { border-top:1px solid rgba(255,255,255,0.08); padding-top:28px; display:flex; justify-content:space-between; align-items:center; font-size:13px; color:rgba(255,255,255,0.4); }
+@media(max-width:768px) {
+  nav { padding:0 24px; } .nav-links,.nav-btn { display:none; } .hamburger { display:flex; }
+  .bundle-hero { padding:56px 24px; } .bundle-hero h1 { font-size:38px; }
+  .builder-layout { grid-template-columns:1fr; padding:32px 24px; }
+  .order-summary { position:static; }
+  .supplement-grid { grid-template-columns:1fr; }
+  .frequency-options { flex-direction:column; }
+  .prebuilt-section { padding:0 24px 60px; }
+  .prebuilt-grid { grid-template-columns:1fr; }
+  .footer-grid { grid-template-columns:1fr 1fr; gap:32px; }
+  .footer-bottom { flex-direction:column; gap:8px; text-align:center; }
+}
+@media(max-width:480px) {
+  nav { padding:0 16px; height:60px; } .mobile-menu { top:60px; }
+  .bundle-hero { padding:40px 16px; } .bundle-hero h1 { font-size:30px; }
+  .builder-layout { padding:24px 16px; }
+  .supplement-card { flex-direction:column; }
+  .prebuilt-section { padding:0 16px 48px; }
+  .footer-grid { grid-template-columns:1fr; } footer { padding:40px 16px 24px; }
+}
+</style>
+</head>
+<body>
+<div class="announcement">🌿 <span>Free shipping</span> on orders over $40 · Bundle & save up to <span>20%</span></div>
+<nav>
+  <a href="index.html" class="nav-logo"><div class="sprout-icon">🌱</div>Sprout</a>
+  <ul class="nav-links">
+    <li><a href="shop.html">Shop All</a></li>
+    <li><a href="shop.html">Best Sellers</a></li>
+    <li><a href="bundle.html" class="active">Build a Bundle</a></li>
+    <li><a href="why-sprout.html">Why Sprout</a></li>
+    <li><a href="reviews.html">Reviews</a></li>
+  </ul>
+  <div class="nav-actions">
+    <div class="cart-icon">🛍️<div class="cart-badge">2</div></div>
+    <a href="bundle.html" class="nav-btn">Take the Quiz →</a>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="shop.html">Shop All</a><a href="shop.html">Best Sellers</a><a href="bundle.html">Build a Bundle</a><a href="why-sprout.html">Why Sprout</a><a href="reviews.html">Reviews</a>
+  <a href="bundle.html" class="m-btn">Take the Quiz →</a>
+</div>
+
+<div class="bundle-hero">
+  <div class="section-label">Build Your Bundle</div>
+  <h1>Mix, match & <em>save</em></h1>
+  <p>Choose 2 or more products and save up to 20%. Delivered monthly, cancel anytime.</p>
+  <div class="savings-pills">
+    <div class="savings-pill">✦ 2 products = save 10%</div>
+    <div class="savings-pill">✦ 3 products = save 15%</div>
+    <div class="savings-pill">✦ 4+ products = save 20%</div>
+  </div>
+</div>
+
+<div class="builder-layout">
+  <div class="builder-main">
+    <h2>Build your perfect stack</h2>
+    <p class="subtitle">Select the supplements that match your child's needs. Mix & match from our full range.</p>
+
+    <div class="step-label"><div class="step-num">1</div>Choose your supplements</div>
+    <div class="supplement-grid" id="supplementGrid">
+
+      <div class="supplement-card" onclick="toggleSupp(this,'Daily Essentials',30)" data-price="30">
+        <div class="supp-bottle sb-green"><div class="supp-emoji">🌟</div></div>
+        <div class="supp-info">
+          <div class="supp-age">Ages 2–13</div>
+          <div class="supp-name">Daily Essentials</div>
+          <div class="supp-desc">15+ vitamins & minerals for complete daily nutrition</div>
+          <div class="supp-price">$30 <span class="supp-price-sub">/mo</span></div>
+        </div>
+      </div>
+
+      <div class="supplement-card" onclick="toggleSupp(this,'Brain Boost Omega',26)" data-price="26">
+        <div class="supp-bottle sb-orange"><div class="supp-emoji">🧠</div></div>
+        <div class="supp-info">
+          <div class="supp-age">Ages 4–13</div>
+          <div class="supp-name">Brain Boost Omega</div>
+          <div class="supp-desc">DHA + EPA for focus, memory & cognitive development</div>
+          <div class="supp-price">$26 <span class="supp-price-sub">/mo</span></div>
+        </div>
+      </div>
+
+      <div class="supplement-card" onclick="toggleSupp(this,'Immunity Shield',22)" data-price="22">
+        <div class="supp-bottle sb-purple"><div class="supp-emoji">🛡️</div></div>
+        <div class="supp-info">
+          <div class="supp-age">Ages 2–13</div>
+          <div class="supp-name">Immunity Shield</div>
+          <div class="supp-desc">Vitamin C, D3 & zinc for triple immune defense</div>
+          <div class="supp-price">$22 <span class="supp-price-sub">/mo</span></div>
+        </div>
+      </div>
+
+      <div class="supplement-card" onclick="toggleSupp(this,'Sweet Dreams',24)" data-price="24">
+        <div class="supp-bottle sb-teal"><div class="supp-emoji">🌙</div></div>
+        <div class="supp-info">
+          <div class="supp-age">Ages 2–8</div>
+          <div class="supp-name">Sweet Dreams</div>
+          <div class="supp-desc">Magnesium & L-theanine for calm, restful sleep</div>
+          <div class="supp-price">$24 <span class="supp-price-sub">/mo</span></div>
+        </div>
+      </div>
+
+      <div class="supplement-card" onclick="toggleSupp(this,'Tiny Tots Starter',22)" data-price="22">
+        <div class="supp-bottle sb-red"><div class="supp-emoji">🦷</div></div>
+        <div class="supp-info">
+          <div class="supp-age">Ages 2–6</div>
+          <div class="supp-name">Tiny Tots Starter</div>
+          <div class="supp-desc">Gentle toddler formula with iron, D3 & calcium</div>
+          <div class="supp-price">$22 <span class="supp-price-sub">/mo</span></div>
+        </div>
+      </div>
+
+      <div class="supplement-card" onclick="toggleSupp(this,'Active & Strong',28)" data-price="28">
+        <div class="supp-bottle sb-blue"><div class="supp-emoji">💪</div></div>
+        <div class="supp-info">
+          <div class="supp-age">Ages 6–13</div>
+          <div class="supp-name">Active & Strong</div>
+          <div class="supp-desc">Protein support, magnesium & B-vitamins for sporty kids</div>
+          <div class="supp-price">$28 <span class="supp-price-sub">/mo</span></div>
+        </div>
+      </div>
+
+      <div class="supplement-card" onclick="toggleSupp(this,'Gut Garden Probiotic',26)" data-price="26">
+        <div class="supp-bottle sb-yellow"><div class="supp-emoji">🌱</div></div>
+        <div class="supp-info">
+          <div class="supp-age">Ages 3–13</div>
+          <div class="supp-name">Gut Garden Probiotic</div>
+          <div class="supp-desc">5 billion CFU with prebiotic fiber for gut & digestion health</div>
+          <div class="supp-price">$26 <span class="supp-price-sub">/mo</span></div>
+        </div>
+      </div>
+
+      <div class="supplement-card" onclick="toggleSupp(this,'Happy Mood',24)" data-price="24">
+        <div class="supp-bottle sb-pink"><div class="supp-emoji">😊</div></div>
+        <div class="supp-info">
+          <div class="supp-age">Ages 4–13</div>
+          <div class="supp-name">Happy Mood</div>
+          <div class="supp-desc">Ashwagandha, B6 & magnesium for emotional balance</div>
+          <div class="supp-price">$24 <span class="supp-price-sub">/mo</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="step-label"><div class="step-num">2</div>Choose your frequency</div>
+    <div class="frequency-options">
+      <div class="freq-opt" onclick="selectFreq(this,'monthly')">
+        <div class="freq-name">Monthly</div>
+        <div class="freq-save">+ Bundle discount</div>
+        <div class="freq-price">Most flexible</div>
+      </div>
+      <div class="freq-opt selected" onclick="selectFreq(this,'quarterly')">
+        <div class="freq-name">Every 3 Months</div>
+        <div class="freq-save">+ Extra 5% off</div>
+        <div class="freq-price">Best value</div>
+      </div>
+      <div class="freq-opt" onclick="selectFreq(this,'biannual')">
+        <div class="freq-name">Every 6 Months</div>
+        <div class="freq-save">+ Extra 8% off</div>
+        <div class="freq-price">Stock up & save</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="order-summary">
+    <div class="os-title">🛒 Your Bundle</div>
+    <div class="os-items" id="osItems"><div class="os-empty">Select supplements above to get started</div></div>
+    <hr class="os-divider">
+    <div class="os-row"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+    <div class="os-row savings" id="savingsRow" style="display:none;"><span id="savingsLabel">Bundle discount</span><span id="savingsAmt">-$0.00</span></div>
+    <div class="os-row"><span>Shipping</span><span id="shipping">FREE</span></div>
+    <hr class="os-divider">
+    <div class="os-row total"><span>Total</span><span id="total">$0.00</span></div>
+    <button class="checkout-btn" id="checkoutBtn" disabled>Select 2+ products to bundle</button>
+    <div class="os-badges">
+      <div class="os-badge">Free shipping</div>
+      <div class="os-badge">Cancel anytime</div>
+      <div class="os-badge">30-day guarantee</div>
+    </div>
+  </div>
+</div>
+
+<div class="prebuilt-section">
+  <h2>Or choose a curated bundle</h2>
+  <p>Our bestselling combinations, hand-picked by pediatric nutritionists.</p>
+  <div class="prebuilt-grid">
+    <div class="prebuilt-card">
+      <div class="prebuilt-emoji-row">🌟 🛡️ 🧠</div>
+      <div class="prebuilt-age">Ages 4–13</div>
+      <div class="prebuilt-name">The Complete Stack</div>
+      <div class="prebuilt-desc">Daily Essentials + Immunity Shield + Brain Boost. Everything your growing kid needs, nothing they don't.</div>
+      <div class="prebuilt-footer"><div class="prebuilt-price">$66/mo</div><div class="prebuilt-save">Save 15%</div></div>
+    </div>
+    <div class="prebuilt-card">
+      <div class="prebuilt-emoji-row">🦷 🌟</div>
+      <div class="prebuilt-age">Ages 2–6</div>
+      <div class="prebuilt-name">Toddler Starter Duo</div>
+      <div class="prebuilt-desc">Tiny Tots + Daily Essentials. The perfect foundation for toddlers making the leap to solid nutrition.</div>
+      <div class="prebuilt-footer"><div class="prebuilt-price">$46/mo</div><div class="prebuilt-save">Save 10%</div></div>
+    </div>
+    <div class="prebuilt-card">
+      <div class="prebuilt-emoji-row">💪 🌙 🧠</div>
+      <div class="prebuilt-age">Ages 6–13</div>
+      <div class="prebuilt-name">School Performance Pack</div>
+      <div class="prebuilt-desc">Active & Strong + Sweet Dreams + Brain Boost. For kids who need to perform, focus, and recover.</div>
+      <div class="prebuilt-footer"><div class="prebuilt-price">$66/mo</div><div class="prebuilt-save">Save 15%</div></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div><div class="footer-logo">🌱 Sprout</div><div class="footer-desc">Clean vitamins for curious, growing kids. Pediatrician-formulated, parent-approved, and kid-tested since 2021.</div><div class="footer-social"><div class="social-btn">📘</div><div class="social-btn">📸</div><div class="social-btn">🎵</div><div class="social-btn">🐦</div></div></div>
+    <div class="footer-col"><h4>Products</h4><ul><li><a href="shop.html">Shop All</a></li><li><a href="bundle.html">Build a Bundle</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="why-sprout.html">Our Story</a></li></ul></div>
+    <div class="footer-col"><h4>Support</h4><ul><li><a href="reviews.html">Reviews</a></li><li><a href="#">Contact Us</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2025 Sprout Health Inc.</span><span>Privacy · Terms · Accessibility</span></div>
+</footer>
+
+<script>
+function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); document.getElementById('hamburger').classList.toggle('open'); }
+
+const selected = {};
+function toggleSupp(card, name, price) {
+  if(selected[name]) { delete selected[name]; card.classList.remove('selected'); }
+  else { selected[name] = price; card.classList.add('selected'); }
+  updateSummary();
+}
+
+function selectFreq(el, freq) {
+  document.querySelectorAll('.freq-opt').forEach(f => f.classList.remove('selected'));
+  el.classList.add('selected');
+  updateSummary();
+}
+
+function updateSummary() {
+  const items = Object.entries(selected);
+  const osItems = document.getElementById('osItems');
+  const count = items.length;
+  let subtotal = items.reduce((s,[,p]) => s+p, 0);
+  let discountPct = count >= 4 ? 0.20 : count === 3 ? 0.15 : count === 2 ? 0.10 : 0;
+  let savings = Math.round(subtotal * discountPct * 100) / 100;
+  let total = subtotal - savings;
+
+  if(count === 0) { osItems.innerHTML = '<div class="os-empty">Select supplements above to get started</div>'; }
+  else { osItems.innerHTML = items.map(([n,p]) => `<div class="os-item"><div class="os-dot"></div><div class="os-item-name">${n}</div><div class="os-item-price">$${p}</div></div>`).join(''); }
+
+  document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+  document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+
+  const savRow = document.getElementById('savingsRow');
+  if(savings > 0) {
+    savRow.style.display = 'flex';
+    document.getElementById('savingsLabel').textContent = `Bundle discount (${Math.round(discountPct*100)}% off)`;
+    document.getElementById('savingsAmt').textContent = `-$${savings.toFixed(2)}`;
+  } else { savRow.style.display = 'none'; }
+
+  const btn = document.getElementById('checkoutBtn');
+  if(count >= 2) { btn.disabled = false; btn.textContent = `Subscribe & Save ${Math.round(discountPct*100)}% →`; }
+  else if(count === 1) { btn.disabled = true; btn.textContent = 'Add 1 more to get your bundle discount'; }
+  else { btn.disabled = true; btn.textContent = 'Select 2+ products to bundle'; }
+}
+</script>
+</body>
+</html>
